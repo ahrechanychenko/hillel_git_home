@@ -1,0 +1,521 @@
+PS C:\Users\38097\PycharmProjects\terraform> terraform apply
+google_compute_instance.VM-terraform: Refreshing state... [id=projects/vernal-store-354912/zones/europe-central2-a/instances/vm-terraform]
+
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # google_storage_bucket.hillel-18-riabets will be created
+  + resource "google_storage_bucket" "hillel-18-riabets" {
+      + force_destroy               = true
+      + id                          = (known after apply)
+      + location                    = "EUROPE-CENTRAL2"
+      + name                        = "hillel-18-riabets"
+      + project                     = (known after apply)
+      + self_link                   = (known after apply)
+      + storage_class               = "STANDARD"
+      + uniform_bucket_level_access = true
+      + url                         = (known after apply)
+
+      + cors {
+          + max_age_seconds = 3600
+          + method          = [
+              + "GET",
+              + "HEAD",
+              + "PUT",
+              + "POST",
+              + "DELETE",
+            ]
+          + origin          = [
+              + "http://image-store.com",
+            ]
+          + response_header = [
+              + "*",
+            ]
+        }
+
+      + website {
+          + main_page_suffix = "index.html"
+          + not_found_page   = "404.html"
+        }
+    }
+
+
+Do you want to perform these actions?
+  Only 'yes' will be accepted to approve.
+
+  Enter a value: yes
+
+google_storage_bucket.hillel-18-riabets: Creating...
+google_storage_bucket.hillel-18-riabets: Creation complete after 2s [id=hillel-18-riabets]
+
+Apply complete! Resources: 1 added, 0 changed, 0 destroyed.
+PS C:\Users\38097\PycharmProjects\terraform> terraform validate
+Success! The configuration is valid.
+
+PS C:\Users\38097\PycharmProjects\terraform> terraform plan    
+google_storage_bucket.hillel-18-riabets: Refreshing state... [id=hillel-18-riabets]
+google_compute_instance.VM-terraform: Refreshing state... [id=projects/vernal-store-354912/zones/europe-central2-a/instances/vm-terraform]
+
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following symbols:
+-/+ destroy and then create replacement
+
+Terraform will perform the following actions:
+
+  # google_compute_instance.VM-terraform must be replaced
+-/+ resource "google_compute_instance" "VM-terraform" {
+      ~ cpu_platform            = "Intel Broadwell" -> (known after apply)
+      ~ current_status          = "RUNNING" -> (known after apply)
+      - enable_display          = false -> null
+      ~ guest_accelerator       = [] -> (known after apply)
+      ~ id                      = "projects/vernal-store-354912/zones/europe-central2-a/instances/vm-terraform" -> (known after apply)
+      ~ instance_id             = "5162183142536845301" -> (known after apply)
+      ~ label_fingerprint       = "42WmSpB8rSM=" -> (known after apply)
+      - labels                  = {} -> null
+      ~ metadata                = {
+          - "ssh-keys" = <<-EOT
+                vryabetc:ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBItHV/QepwcnMLvi56jaKg2r310QC/2IyjHKhyD4ZPPpAS+dQlKNB/XFU2o7JDDmHuAP
+rzf3U9s8ChgutEGF2D8= google-ssh {"userName":"vryabetc@gmail.com","expireOn":"2022-07-07T10:10:53+0000"}
+                vryabetc:ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAFt42QnbNJ/9ZViGDoqU2obc/I4c6mDpoCYlAtg2evD1gsd/PKRxhdG1Nw5ZmNYSyOhmF+hdZ4+jrd5LZBj34JkSqRyLE0y+L168c1UB
+CTp4REhUQSxRxTANT6i4qL6XMm/1+g8D+efR3a8Vl8ZMaT9Mu96ss9E8YEO7Nc1jLFKbneTSntSwVQGPaKsPLOuR9E3d9PqBcn7xlByP0x+Rx0S8OkxHeo9RkALhv9SH/rXA4iaWlEhaJc7t8eBHesJbOvMcI0qktfkoZ
+zjjOpXKWmIBcGeO+7bl0pl5dGMzMf9m3eqHscMWPeLvrZHY7eV3P3s1pl9fxXFxbRGH0ZxzVBc= google-ssh {"userName":"vryabetc@gmail.com","expireOn":"2022-07-07T10:11:09+0000"}       
+            EOT -> null
+            # (1 unchanged element hidden)
+        }
+      ~ metadata_fingerprint    = "5HO1V4rItAs=" -> (known after apply)
+      ~ metadata_startup_script = <<-EOT # forces replacement
+          - #!/bin/bash
+          + # !/bin/bash
+             sudo apt update
+          -  sudo apt install nginx
+          -  sudo apt install mc
+          +  sudo apt install nginx -y
+          +  sudo apt install mc -y
+            systemctl enable nginx
+            systemctl restart nginx
+          -
+        EOT
+      + min_cpu_platform        = (known after apply)
+        name                    = "vm-terraform"
+      ~ project                 = "vernal-store-354912" -> (known after apply)
+      - resource_policies       = [] -> null
+      ~ self_link               = "https://www.googleapis.com/compute/v1/projects/vernal-store-354912/zones/europe-central2-a/instances/vm-terraform" -> (known after
+ apply)
+        tags                    = [
+            "bar",
+            "foo",
+        ]
+      ~ tags_fingerprint        = "1gqCRgrww4E=" -> (known after apply)
+      ~ zone                    = "europe-central2-a" -> (known after apply)
+        # (3 unchanged attributes hidden)
+
+      ~ boot_disk {
+          ~ device_name                = "persistent-disk-0" -> (known after apply)
+          + disk_encryption_key_sha256 = (known after apply)
+          + kms_key_self_link          = (known after apply)
+          ~ source                     = "https://www.googleapis.com/compute/v1/projects/vernal-store-354912/zones/europe-central2-a/disks/vm-terraform" -> (known af
+ter apply)
+            # (2 unchanged attributes hidden)
+
+          ~ initialize_params {
+              ~ image  = "https://www.googleapis.com/compute/v1/projects/debian-cloud/global/images/debian-9-stretch-v20220621" -> "debian-cloud/debian-9"
+              ~ labels = {} -> (known after apply)
+              ~ size   = 10 -> (known after apply)
+              ~ type   = "pd-standard" -> (known after apply)
+            }
+        }
+
+      + confidential_instance_config {
+          + enable_confidential_compute = (known after apply)
+        }
+
+      ~ network_interface {
+          + ipv6_access_type   = (known after apply)
+          ~ name               = "nic0" -> (known after apply)
+          ~ network            = "https://www.googleapis.com/compute/v1/projects/vernal-store-354912/global/networks/default" -> "default"
+          ~ network_ip         = "10.186.0.12" -> (known after apply)
+          - queue_count        = 0 -> null
+          ~ stack_type         = "IPV4_ONLY" -> (known after apply)
+          ~ subnetwork         = "https://www.googleapis.com/compute/v1/projects/vernal-store-354912/regions/europe-central2/subnetworks/default" -> (known after app
+ly)
+          ~ subnetwork_project = "vernal-store-354912" -> (known after apply)
+
+          ~ access_config {
+              ~ nat_ip       = "34.116.212.221" -> (known after apply)
+              ~ network_tier = "PREMIUM" -> (known after apply)
+            }
+        }
+
+      + reservation_affinity {
+          + type = (known after apply)
+
+          + specific_reservation {
+              + key    = (known after apply)
+              + values = (known after apply)
+            }
+        }
+
+      ~ scheduling {
+          ~ automatic_restart   = true -> (known after apply)
+          ~ min_node_cpus       = 0 -> (known after apply)
+          ~ on_host_maintenance = "MIGRATE" -> (known after apply)
+          ~ preemptible         = false -> (known after apply)
+          ~ provisioning_model  = "STANDARD" -> (known after apply)
+
+          + node_affinities {
+              + key      = (known after apply)
+              + operator = (known after apply)
+              + values   = (known after apply)
+            }
+        }
+      ~ service_account {
+          ~ email  = "974066146449-compute@developer.gserviceaccount.com" -> (known after apply)
+            # (1 unchanged attribute hidden)
+        }
+    }
+
+Plan: 1 to add, 0 to change, 1 to destroy.
+
+ 
+
+Note: You didn't use the -out option to save this plan, so Terraform can't guarantee to take exactly these actions if you run "terraform apply" now.
+PS C:\Users\38097\PycharmProjects\terraform> terraform apply
+google_storage_bucket.hillel-18-riabets: Refreshing state... [id=hillel-18-riabets]
+google_compute_instance.VM-terraform: Refreshing state... [id=projects/vernal-store-354912/zones/europe-central2-a/instances/vm-terraform]
+
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following symbols:
+-/+ destroy and then create replacement
+
+Terraform will perform the following actions:
+
+  # google_compute_instance.VM-terraform must be replaced
+-/+ resource "google_compute_instance" "VM-terraform" {
+      ~ cpu_platform            = "Intel Broadwell" -> (known after apply)
+      ~ current_status          = "RUNNING" -> (known after apply)
+      - enable_display          = false -> null
+      ~ guest_accelerator       = [] -> (known after apply)
+      ~ id                      = "projects/vernal-store-354912/zones/europe-central2-a/instances/vm-terraform" -> (known after apply)
+      ~ instance_id             = "5162183142536845301" -> (known after apply)
+      ~ label_fingerprint       = "42WmSpB8rSM=" -> (known after apply)
+      - labels                  = {} -> null
+      ~ metadata                = {
+          - "ssh-keys" = <<-EOT
+                vryabetc:ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBItHV/QepwcnMLvi56jaKg2r310QC/2IyjHKhyD4ZPPpAS+dQlKNB/XFU2o7JDDmHuAP
+rzf3U9s8ChgutEGF2D8= google-ssh {"userName":"vryabetc@gmail.com","expireOn":"2022-07-07T10:10:53+0000"}
+                vryabetc:ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAFt42QnbNJ/9ZViGDoqU2obc/I4c6mDpoCYlAtg2evD1gsd/PKRxhdG1Nw5ZmNYSyOhmF+hdZ4+jrd5LZBj34JkSqRyLE0y+L168c1UB
+CTp4REhUQSxRxTANT6i4qL6XMm/1+g8D+efR3a8Vl8ZMaT9Mu96ss9E8YEO7Nc1jLFKbneTSntSwVQGPaKsPLOuR9E3d9PqBcn7xlByP0x+Rx0S8OkxHeo9RkALhv9SH/rXA4iaWlEhaJc7t8eBHesJbOvMcI0qktfkoZ
+zjjOpXKWmIBcGeO+7bl0pl5dGMzMf9m3eqHscMWPeLvrZHY7eV3P3s1pl9fxXFxbRGH0ZxzVBc= google-ssh {"userName":"vryabetc@gmail.com","expireOn":"2022-07-07T10:11:09+0000"}       
+            EOT -> null
+            # (1 unchanged element hidden)
+        }
+      ~ metadata_fingerprint    = "5HO1V4rItAs=" -> (known after apply)
+      ~ metadata_startup_script = <<-EOT # forces replacement
+          - #!/bin/bash
+          + # !/bin/bash
+             sudo apt update
+          -  sudo apt install nginx
+          -  sudo apt install mc
+          +  sudo apt install nginx -y
+          +  sudo apt install mc -y
+            systemctl enable nginx
+            systemctl restart nginx
+          -
+        EOT
+      + min_cpu_platform        = (known after apply)
+        name                    = "vm-terraform"
+      ~ project                 = "vernal-store-354912" -> (known after apply)
+      - resource_policies       = [] -> null
+      ~ self_link               = "https://www.googleapis.com/compute/v1/projects/vernal-store-354912/zones/europe-central2-a/instances/vm-terraform" -> (known after
+ apply)
+        tags                    = [
+            "bar",
+            "foo",
+        ]
+      ~ tags_fingerprint        = "1gqCRgrww4E=" -> (known after apply)
+      ~ zone                    = "europe-central2-a" -> (known after apply)
+        # (3 unchanged attributes hidden)
+
+      ~ boot_disk {
+          ~ device_name                = "persistent-disk-0" -> (known after apply)
+          + disk_encryption_key_sha256 = (known after apply)
+          + kms_key_self_link          = (known after apply)
+          ~ source                     = "https://www.googleapis.com/compute/v1/projects/vernal-store-354912/zones/europe-central2-a/disks/vm-terraform" -> (known af
+ter apply)
+            # (2 unchanged attributes hidden)
+
+          ~ initialize_params {
+              ~ image  = "https://www.googleapis.com/compute/v1/projects/debian-cloud/global/images/debian-9-stretch-v20220621" -> "debian-cloud/debian-9"
+              ~ labels = {} -> (known after apply)
+              ~ size   = 10 -> (known after apply)
+              ~ type   = "pd-standard" -> (known after apply)
+            }
+        }
+
+      + confidential_instance_config {
+          + enable_confidential_compute = (known after apply)
+        }
+
+      ~ network_interface {
+          + ipv6_access_type   = (known after apply)
+          ~ name               = "nic0" -> (known after apply)
+          ~ network            = "https://www.googleapis.com/compute/v1/projects/vernal-store-354912/global/networks/default" -> "default"
+          ~ network_ip         = "10.186.0.12" -> (known after apply)
+          - queue_count        = 0 -> null
+          ~ stack_type         = "IPV4_ONLY" -> (known after apply)
+          ~ subnetwork         = "https://www.googleapis.com/compute/v1/projects/vernal-store-354912/regions/europe-central2/subnetworks/default" -> (known after app
+ly)
+          ~ subnetwork_project = "vernal-store-354912" -> (known after apply)
+
+          ~ access_config {
+              ~ nat_ip       = "34.116.212.221" -> (known after apply)
+              ~ network_tier = "PREMIUM" -> (known after apply)
+            }
+        }
+
+      + reservation_affinity {
+          + type = (known after apply)
+
+          + specific_reservation {
+              + key    = (known after apply)
+              + values = (known after apply)
+            }
+        }
+
+      ~ scheduling {
+          ~ automatic_restart   = true -> (known after apply)
+          ~ min_node_cpus       = 0 -> (known after apply)
+          ~ on_host_maintenance = "MIGRATE" -> (known after apply)
+          ~ preemptible         = false -> (known after apply)
+          ~ provisioning_model  = "STANDARD" -> (known after apply)
+
+          + node_affinities {
+              + key      = (known after apply)
+              + operator = (known after apply)
+              + values   = (known after apply)
+            }
+        }
+
+      ~ service_account {
+          ~ email  = "974066146449-compute@developer.gserviceaccount.com" -> (known after apply)
+            # (1 unchanged attribute hidden)
+        }
+    }
+
+Plan: 1 to add, 0 to change, 1 to destroy.
+
+Do you want to perform these actions?
+  Terraform will perform the actions described above.
+  Only 'yes' will be accepted to approve.
+  Enter a value: yes
+
+google_compute_instance.VM-terraform: Still destroying... [id=projects/vernal-store-354912/zones/europe-central2-a/instances/vm-terraform, 10s elapsed]
+google_compute_instance.VM-terraform: Still destroying... [id=projects/vernal-store-354912/zones/europe-central2-a/instances/vm-terraform, 20s elapsed]
+google_compute_instance.VM-terraform: Creating...
+google_compute_instance.VM-terraform: Still creating... [10s elapsed]
+google_compute_instance.VM-terraform: Creation complete after 14s [id=projects/vernal-store-354912/zones/europe-central2-a/instances/vm-terraform]
+
+Apply complete! Resources: 1 added, 0 changed, 1 destroyed.
+PS C:\Users\38097\PycharmProjects\terraform> terraform validate
+Success! The configuration is valid.
+
+PS C:\Users\38097\PycharmProjects\terraform> terraform validate
+Success! The configuration is valid.
+
+PS C:\Users\38097\PycharmProjects\terraform> terraform apply   
+google_storage_bucket.hillel-18-riabets: Refreshing state... [id=hillel-18-riabets]
+google_compute_instance.VM-terraform: Refreshing state... [id=projects/vernal-store-354912/zones/europe-central2-a/instances/vm-terraform]
+
+Note: Objects have changed outside of Terraform
+
+Terraform detected the following changes made outside of Terraform since the last "terraform apply" which may have affected this plan:
+
+  # google_compute_instance.VM-terraform has changed
+  ~ resource "google_compute_instance" "VM-terraform" {
+        id                      = "projects/vernal-store-354912/zones/europe-central2-a/instances/vm-terraform"
+        name                    = "vm-terraform"
+        tags                    = [
+            "bar",
+            "foo",
+        ]
+        # (16 unchanged attributes hidden)
+
+
+      ~ network_interface {
+            name               = "nic0"
+            # (6 unchanged attributes hidden)
+
+          ~ access_config {
+              - nat_ip       = "34.116.152.97" -> null
+                # (1 unchanged attribute hidden)
+            }
+        }
+
+
+        # (3 unchanged blocks hidden)
+    }
+
+
+Unless you have made equivalent changes to your configuration, or ignored the relevant attributes using ignore_changes, the following plan may include actions to    
+undo or respond to these changes.
+
+ 
+
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following symbols:
+  ~ update in-place
+
+Terraform will perform the following actions:
+
+  # google_compute_instance.VM-terraform will be updated in-place
+  ~ resource "google_compute_instance" "VM-terraform" {
+        id                      = "projects/vernal-store-354912/zones/europe-central2-a/instances/vm-terraform"
+      ~ metadata                = {
+          - "ssh-keys" = <<-EOT
+                vryabetc:ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBK750aCDReMvYqrO9u2giWjL7AGFO3ucNq7bpAnyzKxurzwMn+cHgBSZGsfyiCPt9TKP
+257xP+66cKftaU8DslM= google-ssh {"userName":"vryabetc@gmail.com","expireOn":"2022-07-07T10:16:22+0000"}
+                vryabetc:ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCnXQjf+VvjEmERNGQcH3wsEbXl1pz3HBXlLKykDbwjGBnrZDC1T3ePff76zVbZXHqKL8u2nDV5rrmALU7OAUJ7RA8XBxp5e7K39vEC
+ilBKGerVsODCqYq8RnoWvV2mqW20qwdo+YM3OOMJ9S5GelRyKZ3jz4KM7VR8RJR7TuvMkX7OCdVAAdQqtbLZwAG3HJb+3rRqz4Kysi3iNJ9pGAq8Yv3mFfb8/4DsbJiXO2qJsR4PL2KamZiiHzhHzF/DNGh36j8pPCsk6
+RWT8n+lvbP/tBPfmAwzIY93Rzh9cBUM1xw1wRcdnHdrz3fQpWuC1qaRgpLwKUe0Wa6nmGg0NzBp google-ssh {"userName":"vryabetc@gmail.com","expireOn":"2022-07-07T10:16:37+0000"}       
+            EOT -> null
+            # (1 unchanged element hidden)
+        }
+        name                    = "vm-terraform"
+        tags                    = [
+            "bar",
+            "foo",
+        ]
+        # (17 unchanged attributes hidden)
+
+
+
+
+        # (4 unchanged blocks hidden)
+    }
+
+Plan: 0 to add, 1 to change, 0 to destroy.
+
+Changes to Outputs:
+  + bucket_url = "hillel-18-riabets"
+
+Do you want to perform these actions?
+  Terraform will perform the actions described above.
+  Only 'yes' will be accepted to approve.
+  Enter a value: yes
+
+google_compute_instance.VM-terraform: Modifying... [id=projects/vernal-store-354912/zones/europe-central2-a/instances/vm-terraform]
+google_compute_instance.VM-terraform: Modifications complete after 3s [id=projects/vernal-store-354912/zones/europe-central2-a/instances/vm-terraform]
+
+Apply complete! Resources: 0 added, 1 changed, 0 destroyed.
+
+Outputs:
+
+bucket_url = "hillel-18-riabets"
+external-ip = ""
+PS C:\Users\38097\PycharmProjects\terraform> terraform apply
+google_storage_bucket.hillel-18-riabets: Refreshing state... [id=hillel-18-riabets]
+google_compute_instance.VM-terraform: Refreshing state... [id=projects/vernal-store-354912/zones/europe-central2-a/instances/vm-terraform]
+
+Note: Objects have changed outside of Terraform
+
+Terraform detected the following changes made outside of Terraform since the last "terraform apply" which may have affected this plan:
+
+  # google_compute_instance.VM-terraform has changed
+  ~ resource "google_compute_instance" "VM-terraform" {
+        id                      = "projects/vernal-store-354912/zones/europe-central2-a/instances/vm-terraform"
+        name                    = "vm-terraform"
+        tags                    = [
+            "bar",
+            "foo",
+        ]
+        # (18 unchanged attributes hidden)
+
+
+      ~ network_interface {
+            name               = "nic0"
+            # (6 unchanged attributes hidden)
+
+          ~ access_config {
+              + nat_ip       = "34.116.152.97"
+                # (1 unchanged attribute hidden)
+            }
+        }
+
+
+        # (3 unchanged blocks hidden)
+    }
+
+
+Unless you have made equivalent changes to your configuration, or ignored the relevant attributes using ignore_changes, the following plan may include actions to    
+undo or respond to these changes.
+
+
+  + external-ip = "34.116.152.97"
+
+You can apply this plan to save these new output values to the Terraform state, without changing any real infrastructure.
+
+Do you want to perform these actions?
+  Terraform will perform the actions described above.
+  Only 'yes' will be accepted to approve.
+
+  Enter a value: tes
+
+Apply cancelled.
+PS C:\Users\38097\PycharmProjects\terraform> terraform apply
+google_storage_bucket.hillel-18-riabets: Refreshing state... [id=hillel-18-riabets]
+google_compute_instance.VM-terraform: Refreshing state... [id=projects/vernal-store-354912/zones/europe-central2-a/instances/vm-terraform]
+
+Note: Objects have changed outside of Terraform
+
+Terraform detected the following changes made outside of Terraform since the last "terraform apply" which may have affected this plan:
+
+  # google_compute_instance.VM-terraform has changed
+  ~ resource "google_compute_instance" "VM-terraform" {
+        id                      = "projects/vernal-store-354912/zones/europe-central2-a/instances/vm-terraform"
+        name                    = "vm-terraform"
+        tags                    = [
+            "bar",
+            "foo",
+        ]
+        # (18 unchanged attributes hidden)
+
+
+      ~ network_interface {
+            name               = "nic0"
+            # (6 unchanged attributes hidden)
+
+          ~ access_config {
+              + nat_ip       = "34.116.152.97"
+                # (1 unchanged attribute hidden)
+            }
+        }
+
+
+        # (3 unchanged blocks hidden)
+    }
+
+
+Unless you have made equivalent changes to your configuration, or ignored the relevant attributes using ignore_changes, the following plan may include actions to    
+undo or respond to these changes.
+
+
+Changes to Outputs:
+  + external-ip = "34.116.152.97"
+
+You can apply this plan to save these new output values to the Terraform state, without changing any real infrastructure.
+
+Do you want to perform these actions?
+  Only 'yes' will be accepted to approve.
+
+  Enter a value: yes
+
+
+Apply complete! Resources: 0 added, 0 changed, 0 destroyed.
+
+Outputs:
+
+bucket_url = "hillel-18-riabets"
+external-ip = "34.116.152.97"
+PS C:\Users\38097\PycharmProjects\terraform> terraform fmt  
+instance.tf
+provider.tf
+PS C:\Users\38097\PycharmProjects\terraform> 
